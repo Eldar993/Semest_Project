@@ -34,6 +34,15 @@ public class UserService {
         return true;
     }
 
+    public boolean saveAdmin(User user){
+        Optional<User> oldUser = userRepository.findByName(user.getName());
+        if (oldUser.isPresent()) {
+            return false;
+        }
+        userRepository.saveAndFlush(user);
+        return true;
+    }
+
     public Optional<User> findUser(Long id) {
         Optional<User> userInfo = userRepository.findUserById(id);
         return userInfo;
@@ -117,5 +126,13 @@ public class UserService {
 
     public Optional<User> findByName(String username) {
         return userRepository.findByName(username);
+    }
+
+    public User findByUserRole(UserRoles userRole){
+        return userRepository.findByUserRole(userRole);
+    }
+
+    public boolean existsByUserRole(UserRoles userRole){
+        return userRepository.existsByUserRole(userRole);
     }
 }
